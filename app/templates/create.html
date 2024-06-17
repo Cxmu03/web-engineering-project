@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>WebGL Demo</title>
+    </head>
+
+    <body>
+        <button onclick="document.querySelector('#fractal').requestFullscreen()">Fullscreen</button>
+        <canvas id="fractal" width="1920" height="1080"></canvas>
+
+
+        <script type="text/javascript" src="{{url_for('static', filename='render.js')}}" ></script>
+        <script>
+            var fragment_shader = get_fragment_shader_source(
+                1000,
+                `
+                float a = 0.0, b = 0.0, aa = 0.0, bb = 0.0;
+                `,
+                `
+                b = 2.0 * a * b + y;
+                a = aa - bb + x;
+                aa = a * a;
+                bb = b * b;
+                `);
+
+            render_to("#fractal", fragment_shader);
+        </script>
+  </body>
+</html>
