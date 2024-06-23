@@ -6,46 +6,6 @@ const vertex_shader_source = `#version 300 es
       }
 `
 
-function get_fragment_shader_source(max_iterations, init_step, calculation_step) {
-    return `#version 300 es
-        precision highp float;
-
-        out vec4 FragColor;
-
-        vec3 color_palette(int i);
-
-        float map(float v, float v1, float v2, float r1, float r2) {
-            return r1 + (((v - v1) / (v2 - v1)) * (r2 - r1));  
-        }
-
-        void main() {
-            float x = map(gl_FragCoord.x, 0.0, 1920.0, -2.55, 1.0);
-            float y = map(gl_FragCoord.y, 0.0, 1080.0, -1.0, 1.0);
-            ${init_step}
-
-            int i = 0;
-            int max_iterations = ${max_iterations};
-
-            for(; aa + bb <= 4.0 && i < max_iterations; i++) {
-                ${calculation_step}
-                /*b = 2.0 * a * b + y;
-                a = aa - bb + x;
-                a = a / b;
-                aa = a * a;
-                bb = b * b;*/
-            }
-
-            if(i < max_iterations) {
-                float f = sqrt(float(i) / float(max_iterations));
-                FragColor = vec4(vec3(sqrt(f)), 1.0);
-
-            } else {
-                FragColor = vec4(vec3(0.0), 1.0);
-            }
-        }
-    `
-}
-
 function create_shader(gl, type, source) {
     var shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -83,17 +43,13 @@ function render_to(canvas_selector, fragment_shader) {
     }
 
 
-    //
-    //
-    //var vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
-    //var fragmentShaderSource = document.querySelector("#fragment-shader-2d").text;
-     
     var vertexShader = create_shader(gl, gl.VERTEX_SHADER, vertex_shader_source);
     var fragmentShader = create_shader(gl, gl.FRAGMENT_SHADER, fragment_shader);
 
     var program = create_program(gl, vertexShader, fragmentShader);
 
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+    var size_uniform= gl.getUniformLocation(program, "size");
 
     var vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -113,6 +69,8 @@ function render_to(canvas_selector, fragment_shader) {
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program);
 
+    gl.uniform2f(size_uniform, canvas.width, canvas.height);
+
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
@@ -120,17 +78,10 @@ function render_to(canvas_selector, fragment_shader) {
 }
 
 function render_default_mandelbrot(canvas_selector) {
-    var fragment_shader = get_fragment_shader_source(
-        1000,
-        `
-        float a = 0.0, b = 0.0, aa = 0.0, bb = 0.0;
-        `,
-        `
-        b = 2.0 * a * b + y;
-        a = aa - bb + x;
-        aa = a * a;
-        bb = b * b;
-        `);
-    
-    render_to(canvas_selector, fragment_shader);
+    fetch("/fragment?iterations=1000&escape_radius=4.0&formula=(abs(zx)%2Babs(zy)*I)^2%2Bc")
+        .then(response => response.text())
+        .then(response => {
+            console.log(response);
+            render_to(canvas_selector, response);
+        })
 }

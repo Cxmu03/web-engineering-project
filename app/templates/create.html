@@ -3,28 +3,41 @@
     <head>
         <meta charset="utf-8" />
         <title>WebGL Demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+        <!-- and it's easy to individually load additional languages -->
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/glsl.min.js"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='render.js')}}" defer></script>
+        <script type="text/javascript" src="{{url_for('static', filename='create.js')}}" defer></script>
     </head>
 
     <body>
-        <button onclick="document.querySelector('#fractal').requestFullscreen()">Fullscreen</button>
-        <canvas id="fractal" width="1920" height="1080"></canvas>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <canvas id="fractal" width="1066" height="600"></canvas>
 
-
-        <script type="text/javascript" src="{{url_for('static', filename='render.js')}}" ></script>
-        <script>
-            var fragment_shader = get_fragment_shader_source(
-                1000,
-                `
-                float a = 0.0, b = 0.0, aa = 0.0, bb = 0.0;
-                `,
-                `
-                b = 2.0 * a * b + y;
-                a = aa - bb + x;
-                aa = a * a;
-                bb = b * b;
-                `);
-
-            render_to("#fractal", fragment_shader);
-        </script>
+                    Iterations
+                    <br>
+                    <input id="iterations" type="text" value="1000"></input>
+                    <br>
+                    Escape Radius
+                    <br>
+                    <input id="escape_radius" type="text" value="4"></input>
+                    <br>
+                    Formula
+                    <br>
+                    <input id="formula" type="text" value="z^2+c"></input>
+                    <br>
+                    <input type="button" value="Render" onclick="render()"></input>
+                    <button onclick="document.querySelector('#fractal').requestFullscreen()">Fullscreen</button>    
+                </div>
+                <div class="col">
+                    <pre id="fragment_shader" class="language-glsl"><pre>
+                </div>
+            </div>
+        </div>
   </body>
 </html>
