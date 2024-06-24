@@ -1,14 +1,18 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>WebGL Demo</title>
-      <script type="text/javascript" src="{{url_for('static', filename='render.js')}}" defer></script>
-  </head>
+{% extends "base.html" %}
 
-  <body>
-      <button onclick="render_default_mandelbrot('#glcanvas')">Render</button>
-      <button onclick="document.querySelector('#glcanvas').requestFullscreen()">Fullscreen</button>
+{% block head %}
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <script type="text/javascript" src="{{url_for('static', filename='render.js')}}" defer></script>
+{% endblock %}
+
+{% block content %}
     <canvas id="glcanvas" width="1920" height="1080"></canvas>
-  </body>
-</html>
+    <button onclick="document.querySelector('#glcanvas').requestFullscreen()">Fullscreen</button>
+
+    <script>
+        window.onload = () => {
+            render_default_burning_ship("#glcanvas");
+        }
+    </script>
+{% endblock %}

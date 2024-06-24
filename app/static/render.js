@@ -78,6 +78,15 @@ function render_to(canvas_selector, fragment_shader) {
 }
 
 function render_default_mandelbrot(canvas_selector) {
+    fetch("/fragment?iterations=1000&escape_radius=4.0&formula=z^2%2Bc")
+        .then(response => response.text())
+        .then(response => {
+            console.log(response);
+            render_to(canvas_selector, response);
+        })
+}
+
+function render_default_burning_ship(canvas_selector) {
     fetch("/fragment?iterations=1000&escape_radius=4.0&formula=(abs(zx)%2Babs(zy)*I)^2%2Bc")
         .then(response => response.text())
         .then(response => {

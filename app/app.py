@@ -27,8 +27,8 @@ def fragment_shader():
 
 @app.route("/")
 def main():
-    return render_template("index.html")
+    return render_template("index.html", currentPage="home")
 
 @app.route("/create")
 def create():
-    return render_template("create.html")
+    return render_template("create.html", currentPage="create")
