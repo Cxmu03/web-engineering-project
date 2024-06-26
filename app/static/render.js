@@ -94,3 +94,12 @@ function render_default_burning_ship(canvas_selector) {
             render_to(canvas_selector, response);
         })
 }
+
+function render_julia_set(canvas_selector, c_re, c_im) {
+    fetch(`/fragment?iterations=1000&escape_radius=4.0&formula=(abs(zx)%2Babs(zy)*I)^2%2B((${c_re})%2B(${c_im})*I)`)
+        .then(response => response.text())
+        .then(response => {
+            console.log(response);
+            render_to(canvas_selector, response);
+        })
+}
