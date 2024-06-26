@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, make_response, jsonify
 
-from .user import *
-from .fractal import get_fragment_shader
+from .server import auth
+from .server import user
+from .server.rendering import get_fragment_shader
 
 app = Flask(__name__,)
 
