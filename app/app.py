@@ -17,7 +17,7 @@ def register():
 @app.route("/fragment")
 def fragment_shader():
     args = {}
-    for arg, typ in [("iterations", int), ("escape_radius", float), ("formula", str)]:
+    for arg, typ in [("iterations", int), ("escape_radius", float), ("center_x", float), ("center_y", float), ("width", float), ("formula", str)]:
         if arg not in request.args:
             return make_response(
                 jsonify({
@@ -30,7 +30,7 @@ def fragment_shader():
 
     return make_response(
         #f'<pre>{get_fragment_shader(args["iterations"], args["escape_radius"], args["formula"])}</pre>',
-        get_fragment_shader(args["iterations"], args["escape_radius"], args["formula"]),
+        get_fragment_shader(args["iterations"], args["escape_radius"], args["center_x"], args["center_y"], args["width"], args["formula"]),
         200
     )
 

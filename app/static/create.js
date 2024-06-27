@@ -2,10 +2,16 @@ const get_fragment_shader = async () => {
     var iterations = document.getElementById('iterations').value;
     var escape_radius = document.getElementById('escape_radius').value;
     var formula = document.getElementById('formula').value;
+    var center_x = document.getElementById('center-x').value;
+    var center_y = document.getElementById('center-y').value;
+    var width = document.getElementById('width').value;
 
     return await fetch("/fragment?" + new URLSearchParams({
         iterations: iterations,
         escape_radius: escape_radius,
+        center_x: center_x,
+        center_y: center_y,
+        width: width,
         formula: formula
     }).toString())
         .then(response => response.text())

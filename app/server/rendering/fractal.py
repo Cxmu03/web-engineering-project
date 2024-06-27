@@ -47,11 +47,14 @@ def get_calculation_steps(formula: str):
 
     return expr.as_real_imag()
 
-def get_fragment_shader(iterations: int, escape_radius: int, formula: str):
+def get_fragment_shader(iterations: int, escape_radius: float, center_x: float, center_y: float, width: float, formula: str):
     real_calc_step, imag_calc_step = get_calculation_steps(formula)
 
     return fragment_shader_source.format(iterations=iterations,
                                          escape_radius=escape_radius,
+                                         center_x=center_x,
+                                         center_y=center_y,
+                                         width=width,
                                          real_calc_step=glsl_code(real_calc_step.xreplace({i:Symbol(str(i)+".") for i in real_calc_step.atoms(Integer)})),
                                          imag_calc_step=glsl_code(imag_calc_step.xreplace({i:Symbol(str(i)+".") for i in imag_calc_step.atoms(Integer)})))
 
