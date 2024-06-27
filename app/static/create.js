@@ -23,15 +23,12 @@ const get_fragment_shader = async () => {
 const adjust_element_sizes = (canvas_selector, shader_selector) => {
     var canvas = document.querySelector(canvas_selector);
     var shader_element = document.querySelector(shader_selector);
-
-    if(shader_element.style.height < canvas.height) {
-        shader_element.style.height = canvas.height + "px";
-    }
 }
 
 const reload_fragment_shader = (fragment_shader) => {
     var fragment_shader_block = document.getElementById("fragment_shader");
-    fragment_shader_block.style.maxWidth = canvas.width; 
+    fragment_shader_block.style.maxHeight = `${window.innerHeight - document.getElementById("navbar").offsetHeight}px`;
+    fragment_shader_block.style.maxWidth = canvas.style.width; 
     fragment_shader_block.textContent = fragment_shader;
     fragment_shader_block.removeAttribute("data-highlighted");
     hljs.highlightElement(fragment_shader_block);
@@ -46,9 +43,11 @@ const render = async () => {
 
 var canvas = document.querySelector("#fractal");
 var fragment_shader = document.querySelector("#fragment_shader");
-canvas.width = window.innerWidth / 2.0;
-canvas.height = canvas.width * (9.0 / 16.0);
-fragment_shader.style.maxWidth = canvas.width; 
+canvas.width = 1920;
+canvas.height = 1080;
+canvas.style.width = `${window.innerWidth / 2.0}px`;
+canvas.style.height = `${canvas.style.width * (9.0 / 16.0)}px`;
 
+console.log(document.getElementById("navbar"));
 
 render();

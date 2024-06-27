@@ -21,53 +21,56 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <canvas id="fractal" width="1066" height="600"></canvas>
+            <div class="row">
+                <canvas id="fractal" width="1066" height="600"></canvas>
+            </div>
+            <div class="row">
+                <div class="col justify-content-center">
+                    <form>
+                        <div class="form-group">
+                            <label for="iterations">Iterationen</label>
+                            <input style="margin-right: 100px" id="iterations" type="text" value="1000"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="escape_radius">Radius</label>
+                            <input id="escape_radius" type="text" value="4"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="formula">Formel</label>
+                            <input id="formula" type="text" value="z^2+c"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="center-x">X Zentrum</label>
+                            <input id="center-x" type="text" value="-1.0"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="center-y">Y Zentrum</label>
+                            <input id="center-y" type="text" value="0.0"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="width">Breite</label>
+                            <input id="width" type="text" value="3.55"></input>
+                        </div>
+                    </form>
+
+                    <div class="btn btn-primary mt-4 mx-2" onclick="render()">Render</div>
+                    <div class="btn btn-primary mt-4 mx-2" onclick="fullscreen()">Fullscreen</div>
+                </div>
+                <div class="col">
+                    <form method>
+                        <div class="form-group">
+                            <label for="name">Name</label><br>
+                            <input id="input" type="text"></input>
+                        </div>
+                    </form>
+                    <div class="btn btn-primary mt-3">Speichern</div>
+                </div>
+            </div>
         </div>
         <div class="col">
             <pre id="fragment_shader" class="language-glsl"><pre>
         </div>
     </div>
-    <div class="row">
-        <div class="col justify-content-center">
-            <form>
-                <div class="form-group">
-                    <label for="iterations">Iterationen</label>
-                    <input style="margin-right: 100px" id="iterations" type="text" value="1000"></input>
-                </div>
-                <div class="form-group">
-                    <label for="escape_radius">Radius</label>
-                    <input id="escape_radius" type="text" value="4"></input>
-                </div>
-                <div class="form-group">
-                    <label for="formula">Formel</label>
-                    <input id="formula" type="text" value="z^2+c"></input>
-                </div>
-                <div class="form-group">
-                    <label for="center-x">X Zentrum</label>
-                    <input id="center-x" type="text" value="-1.0"></input>
-                </div>
-                <div class="form-group">
-                    <label for="center-y">Y Zentrum</label>
-                    <input id="center-y" type="text" value="0.0"></input>
-                </div>
-                <div class="form-group">
-                    <label for="width">Breite</label>
-                    <input id="width" type="text" value="3.55"></input>
-                </div>
-            </form>
-            
-            <div class="btn btn-primary mt-4 mx-2" onclick="render()">Render</div>
-            <div class="btn btn-primary mt-4 mx-2" onclick="fullscreen()">Fullscreen</div>
-        </div>
-        <div class="col">
-            <form method>
-                <div class="form-group">
-                    <label for="name">Name</label><br>
-                    <input id="input" type="text"></input>
-                </div>
-            </form>
-            <div class="btn btn-primary mt-3">Speichern</div>
-        </div>
-    </div>
+    
 </div>
 {% endblock %}
