@@ -34,7 +34,27 @@ const reload_fragment_shader = (fragment_shader) => {
     hljs.highlightElement(fragment_shader_block);
 }
 
+const checkInputsForRendering = () => { 
+    var name_input = document.getElementById("name");
+    var form = document.getElementById("fractal-form");
+
+    name_input.required = false;
+
+    if(!form.checkValidity()) {
+        return false;
+    }
+
+    name_input.required=true;
+
+    return true;
+}
+
 const render = async () => {
+    if(!checkInputsForRendering()) {
+        alert("Missing input fields for rendering");
+        return;
+    }
+
     var fragment_shader = await get_fragment_shader();
     reload_fragment_shader(fragment_shader);
     render_to("#fractal", fragment_shader);
@@ -65,3 +85,24 @@ canvas.style.height = `${canvas.style.width * (9.0 / 16.0)}px`;
 console.log(document.getElementById("navbar"));
 
 render();
+
+
+(function () {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+  
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()

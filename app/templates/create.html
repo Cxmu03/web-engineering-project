@@ -24,42 +24,55 @@
             <div class="row">
                 <canvas id="fractal" width="1066" height="600"></canvas>
             </div>
-            <form method="post">
+            <form id="fractal-form" class="needs-validation" method="post" novalidate>
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="form-group has-validation">
                             <label for="iterations">Iterationen</label>
-                            <input name="iterations" style="margin-right: 100px" id="iterations" type="text" value="1000"></input>
+                            <div class="invalid-feedback">Die Iterationen können nicht leer sein</div>
+                            <input class="form-control" name="iterations" style="margin-right: 100px" id="iterations"
+                                type="text" value="1000" required></input>
                         </div>
                         <div class="form-group">
                             <label for="escape_radius">Radius</label>
-                            <input name="escape_radius" id="escape_radius" type="text" value="4"></input>
+                            <div class="invalid-feedback">Der Radius kann nicht leer sein</div>
+                            <input class="form-control" name="escape_radius" id="escape_radius" type="text" value="4"
+                                required></input>
                         </div>
                         <div class="form-group">
                             <label for="formula">Formel</label>
-                            <input name="formula" id="formula" type="text" value="z^2+c"></input>
+                            <div class="invalid-feedback">Die Formel kann nicht leer sein</div>
+                            <input class="form-control" name="formula" id="formula" type="text" value="z^2+c"
+                                required></input>
                         </div>
                         <div class="form-group">
                             <label for="center-x">X Zentrum</label>
-                            <input name="center_x" id="center-x" type="text" value="-1.0"></input>
+                            <div class="invalid-feedback">Der reelle Anteil des Zentrums kann nicht leer sein</div>
+                            <input class="form-control" name="center_x" id="center-x" type="text" value="-1.0"
+                                required></input>
                         </div>
-                        <div class="form-group">
-                            <label for="center-y">Y Zentrum</label>
-                            <input name="center_y" id="center-y" type="text" value="0.0"></input>
-                        </div>
-                        <div class="form-group">
-                            <label for="width">Breite</label>
-                            <input name="width" id="width" type="text" value="3.55"></input>
-                        </div>
-                        <div class="btn btn-primary mt-4 mx-2" onclick="render()">Render</div>
-                        <div class="btn btn-primary mt-4 mx-2" onclick="fullscreen()">Fullscreen</div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="name">Name</label><br>
-                            <input name="name" id="input" type="text"></input>
+                            <label for="center-y">Y Zentrum</label>
+                            <div class="invalid-feedback">Der imaginäre Anteil des Zentrums kann nicht leer sein</div>
+                            <input class="form-control" name="center_y" id="center-y" type="text" value="0.0"
+                                required></input>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-4">Speichern</button> 
+                        <div class="form-group">
+                            <label for="width">Breite</label>
+                            <div class="invalid-feedback">Die Breite kann nicht leer sein</div>
+                            <input class="form-control" name="width" id="width" type="text" value="3.55"
+                                required></input>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="name">Name</label><br>
+                            <div class="invalid-feedback">Der Name kann nicht leer sein</div>
+                            <input class="form-control" name="name" id="name" type="text" required></input>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-4 mx-2">Speichern</button>
+                        <div id="render-button" class="btn btn-primary mt-4 mx-2" onclick="render()">Rendern</div>
+                        <div class="btn btn-primary mt-4 mx-2" onclick="fullscreen()">Fullscreen</div>
                         <input name="preview" type="hidden" id="preview"></input>
                     </div>
                 </div>
