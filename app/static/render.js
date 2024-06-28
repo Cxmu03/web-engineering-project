@@ -87,7 +87,7 @@ function render_default_mandelbrot(canvas_selector) {
 }
 
 function render_default_burning_ship(canvas_selector) {
-    fetch("/api/fragment?iterations=1000&escape_radius=4.0&center_x=0.0&center_y=0.0&width=3.55&formula=(abs(zx)%2Babs(zy)*I)^2%2Bc")
+    fetch("/api/fragment?iterations=1000&escape_radius=4.0&center_x=-0.5&center_y=-0.4&width=3.55&formula=(abs(zx)%2Babs(zy)*I)^2%2Bc")
         .then(response => response.text())
         .then(response => {
             console.log(response);
@@ -96,7 +96,7 @@ function render_default_burning_ship(canvas_selector) {
 }
 
 function render_julia_set(canvas_selector, c_re, c_im) {
-    fetch(`/api/fragment?iterations=1000&escape_radius=4.0&center_x=0.0&center_y=0.0&width=3.55&formula=(abs(zx)%2Babs(zy)*I)^2%2B((${c_re})%2B(${c_im})*I)`)
+    fetch(`/api/fragment?iterations=1000&escape_radius=4.0&center_x=0.0&center_y=-0.0&width=3.55&formula=(abs(zx)%2Babs(zy)*I)^2%2B((${c_re})%2B(${c_im})*I)`)
         .then(response => response.text())
         .then(response => {
             console.log(response);

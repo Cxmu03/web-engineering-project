@@ -11,10 +11,23 @@ def save_fractal_to_database(user: str, name: str, formula: str, escape_radius: 
 
     database.connection.commit()
 
+def delete_fractal_from_database(id: int):
+    database.cursor.execute("DELETE FROM fractal WHERE fractal_id = ?", (id, ))
+
+    database.connection.commit()
+
+def get_fractal_creator(id: int):
+    results = database.cursor.execute("SELECT username FROM fractal WHERE fractal_id = ?", (id, ))
+
+    return None if results is None else results.fetchone()[0]
+
 def get_all_fractals():
     fractals = database.cursor.execute("SELECT * FROM fractal")
 
     return fractals.fetchall()
+
+def get_all_fractals_excepy_by(username: str):
+    fractals = database.cursor.execute("SELECT * FROM fractal WHERE fractal.username != ?", (username, ))
 
 def get_all_fractals_by(username: str):
     fractals = database.cursor.execute("SELECT * FROM fractal where fractal.username = ?", (username,))

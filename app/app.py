@@ -41,7 +41,7 @@ def explore():
     if (user := get_current_user()) == None:
         return redirect("/login", 302)
 
-    fractals = get_all_fractals()
+    fractals = get_all_fractals_excepy_by(user)
 
     return render_template("explore.html", username=user, fractals=fractals)
 
@@ -57,6 +57,22 @@ def register():
             return render_template("register.html")
 
         return redirect("/login", 302)
+
+@app.route("/api/fractal/<id>", methods=["DELETE"])
+def fractal_api(id: int):
+    if (user := get_current_user()) == None:
+        abort(403, "Unauthorized")
+
+    if request.method == "DELETE":
+        if (creator := get_fractal_creator(id)) is None:
+            abort(404, f"Fractal with id {id} does not exist")
+
+        if creator != user:
+            abort(403, "Unauthorized")
+
+        delete_fractal_from_database(id)
+
+        return "Success", 200
 
 
 @app.route("/api/fragment")
@@ -89,7 +105,10 @@ def formula_is_valid(formula: str):
 def main():
     if (user := get_current_user()) == None:
         return redirect("/login")
-    return render_template("index.html", currentPage="home", username=user)
+
+    fractals = get_all_fractals_by(user)
+
+    return render_template("index.html", currentPage="home", username=user, fractals=fractals)
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
