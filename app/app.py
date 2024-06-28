@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, make_response, jsonify, redirect
 
 from .server import *
-from .server.rendering import get_fragment_shader
+from .server.rendering import get_fragment_shader, get_calculation_steps
 
 import base64
 
@@ -75,6 +75,14 @@ def fragment_shader():
         get_fragment_shader(args["iterations"], args["escape_radius"], args["center_x"], args["center_y"], args["width"], args["formula"]),
         200
     )
+
+@app.route("/formula/<formula>/is-valid")
+def formula_is_valid(formula: str):
+    try:
+        get_calculation_steps(formula)
+        return "true"
+    except:
+        return "false"
 
 @app.route("/", methods=["GET"])
 def main():

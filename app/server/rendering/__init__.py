@@ -1,1 +1,1 @@
-from .fractal import get_fragment_shader
+from .fractal import get_fragment_shader, get_calculation_steps

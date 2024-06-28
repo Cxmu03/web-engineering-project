@@ -38,11 +38,8 @@ def get_calculation_steps(formula: str):
     for pattern, replacement in replacements.items():
         formula = regex.sub(pattern, replacement, formula)
 
-    print(formula)
-
     expr = parse_expr(formula, local_dict=local_symbols)
 
-    print(expr)
     expr = expr.expand().simplify()
 
     return expr.as_real_imag()

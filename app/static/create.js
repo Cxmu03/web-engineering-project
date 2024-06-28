@@ -34,15 +34,33 @@ const reload_fragment_shader = (fragment_shader) => {
     hljs.highlightElement(fragment_shader_block);
 }
 
-const checkInputsForRendering = () => { 
+const formula_is_valid = async (formula) => {
+    if(formula === "") {
+        return false;
+    }
+
+    var formula_can_be_processed = await fetch(
+        "/formula/" + encodeURIComponent(formula) + "/is-valid"
+    )
+        .then(response => response.text())
+        .then(response => { return response });
+
+
+    return formula_can_be_processed === "true";
+}
+
+const checkInputsForRendering = async (skipNameField) => { 
+    var is_valid = true;
+
     for(const field of ["escape_radius", "center-x", "center-y", "width"]) {
         element = document.getElementById(field)
         var float = parseFloat(element.value);
 
-
         if(isNaN(float)) {
-            alert(field + " has to be a float");
-            return false;
+            element.classList.add("is-invalid");
+            is_valid = false;    
+        } else {
+            element.classList.remove("is-invalid");
         }
 
         element.value = float;
@@ -54,20 +72,41 @@ const checkInputsForRendering = () => {
     iterations.value = iterations_value;
 
     if(isNaN(iterations_value)) {
-        alert("iterations has to be an int");
-        return false;
+        iterations.classList.add("is-invalid");
+        is_valid = false;
+    } else {
+        iterations.classList.remove("is-invalid");
     }
 
-    if(document.getElementById("formula").value == "") {
-        alert("Formula can't be empty");
-        return false;
+    var formula = document.getElementById("formula");
+    if(!(await formula_is_valid(formula.value))) {
+        formula.classList.add("is-invalid");
+        console.log("Here");
+        is_valid = false;
+    } else {
+        formula.classList.remove("is-invalid");
     }
 
-    return true;
+    if(!skipNameField) {
+        var name = document.getElementById("name")
+        
+        if (name.value === "") {
+            name.classList.add("is-invalid");
+            is_valid = false;
+        } else {
+            name.classList.remove("is-invalid");
+        }
+    }
+
+    return is_valid;
 }
 
 const render = async () => {
-    checkInputsForRendering();
+    if(!(await checkInputsForRendering(true))) {
+        return;
+    }
+
+    document.getElementById("name").classList.remove("is-invalid");
 
     var fragment_shader = await get_fragment_shader();
     reload_fragment_shader(fragment_shader);
@@ -100,23 +139,29 @@ console.log(document.getElementById("navbar"));
 
 render();
 
+const submitForm = async () => {
+    form = document.getElementById("fractal-form");
 
-(function () {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-  
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
+    var inputs_are_valid = await checkInputsForRendering(false);
+
+    if(inputs_are_valid) {
+        form.submit();
+    }
+}
+
+// Fetch all the forms we want to apply custom Bootstrap validation styles to
+//var forms = document.querySelectorAll('.needs-validation')
+//  
+//// Loop over them and prevent submission
+//Array.prototype.slice.call(forms)
+//  .forEach(function (form) {
+//    form.addEventListener('submit', async function (event) {
+//      var inputs_are_valid = await checkInputsForRendering(false);
+//      console.log(inputs_are_valid);
+//      if (!inputs_are_valid) {
+//        event.preventDefault()
+//        event.stopPropagation()
+//      }
+//      form.classList.add('was-validated');
+//    }, true)
+//  })

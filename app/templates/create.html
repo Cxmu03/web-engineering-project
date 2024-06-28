@@ -31,46 +31,47 @@
                             <label for="iterations">Iterationen</label>
                             <input class="form-control" name="iterations" style="margin-right: 100px" id="iterations"
                                 type="text" value="1000" required></input>
-                            <div class="invalid-feedback">Die Iterationen können nicht leer sein</div>
+                            <div class="invalid-feedback">Die Iterationen müssen ein Integer sein</div>
                         </div>
                         <div class="form-group">
                             <label for="escape_radius">Radius</label>
                             <input class="form-control" name="escape_radius" id="escape_radius" type="text" value="4"
                                 required></input>
-                            <div class="invalid-feedback">Der Radius kann nicht leer sein</div>
+                            <div class="invalid-feedback">Der Radius muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label for="formula">Formel</label>
-                            <div class="invalid-feedback">Die Formel kann nicht leer sein</div>
                             <input class="form-control" name="formula" id="formula" type="text" value="z^2+c"
                                 required></input>
+                            <div class="invalid-feedback">Die Formel kann nicht umgeformt werden</div>
                         </div>
                         <div class="form-group">
                             <label for="center-x">X Zentrum</label>
-                            <div class="invalid-feedback">Der reelle Anteil des Zentrums kann nicht leer sein</div>
                             <input class="form-control" name="center_x" id="center-x" type="text" value="-1.0"
                                 required></input>
+                            <div class="invalid-feedback">Der reelle Anteil des Zentrums muss ein float sein</div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="center-y">Y Zentrum</label>
-                            <div class="invalid-feedback">Der imaginäre Anteil des Zentrums kann nicht leer sein</div>
-                            <input class="form-control" name="center_y" id="center-y" type="text" value="0.0"
+                            <input class="form-control" title="Der Imaginäre Anteil des Zentrums des Bildes" name="center_y" id="center-y" type="text" value="0.0"
                                 required></input>
+                            <i class="question"></i>
+                            <div class="invalid-feedback">Der imaginäre Anteil des Zentrums muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label for="width">Breite</label>
-                            <div class="invalid-feedback">Die Breite kann nicht leer sein</div>
                             <input class="form-control" name="width" id="width" type="text" value="3.55"
                                 required></input>
+                            <div class="invalid-feedback">Die Breite muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="name">Name</label><br>
-                            <div class="invalid-feedback">Der Name kann nicht leer sein</div>
                             <input class="form-control" name="name" id="name" type="text" required></input>
+                            <div class="invalid-feedback">Der Name kann nicht leer sein</div>
                         </div>
-                        <button type="submit" class="btn btn-success mt-4 mx-2">Speichern</button>
+                        <div onclick="submitForm()" class="btn btn-success mt-4 mx-2">Speichern</div>
                         <div id="render-button" class="btn btn-primary mt-4 mx-2" onclick="render()">Rendern</div>
                         <div class="btn btn-primary mt-4 mx-2" onclick="fullscreen()">Fullscreen</div>
                         <input name="preview" type="hidden" id="preview"></input>
