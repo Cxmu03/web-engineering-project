@@ -35,25 +35,39 @@ const reload_fragment_shader = (fragment_shader) => {
 }
 
 const checkInputsForRendering = () => { 
-    var name_input = document.getElementById("name");
-    var form = document.getElementById("fractal-form");
+    for(const field of ["escape_radius", "center-x", "center-y", "width"]) {
+        element = document.getElementById(field)
+        var float = parseFloat(element.value);
 
-    name_input.required = false;
 
-    if(!form.checkValidity()) {
+        if(isNaN(float)) {
+            alert(field + " has to be a float");
+            return false;
+        }
+
+        element.value = float;
+    }
+
+    iterations = document.getElementById("iterations");
+    iterations_value = parseInt(iterations.value)
+
+    iterations.value = iterations_value;
+
+    if(isNaN(iterations_value)) {
+        alert("iterations has to be an int");
         return false;
     }
 
-    name_input.required=true;
+    if(document.getElementById("formula").value == "") {
+        alert("Formula can't be empty");
+        return false;
+    }
 
     return true;
 }
 
 const render = async () => {
-    if(!checkInputsForRendering()) {
-        alert("Missing input fields for rendering");
-        return;
-    }
+    checkInputsForRendering();
 
     var fragment_shader = await get_fragment_shader();
     reload_fragment_shader(fragment_shader);
