@@ -9,8 +9,6 @@ app = Flask(__name__,)
 app.jinja_env.filters['b64encode'] = base64.b64encode
 database.init()
 
-get_all_fractals_by("Marek")
-
 def check_arguments(provided_args, needed_args):
     args = {}
     for arg, typ in needed_args:
@@ -42,7 +40,7 @@ def login():
 def explore():
     fractals = get_all_fractals()
 
-    return render_template("explore.html", fractals=fractals)
+    return render_template("explore.html", username=get_current_user(), current_page="explore", fractals=fractals)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -58,7 +56,7 @@ def register():
         return redirect("/login", 302)
 
 
-@app.route("/fragment")
+@app.route("/api/fragment")
 def fragment_shader():
     success, args = check_arguments(request.args, [("iterations", int), ("escape_radius", float), ("center_x", float), ("center_y", float), ("width", float), ("formula", str)])
 
@@ -76,7 +74,7 @@ def fragment_shader():
         200
     )
 
-@app.route("/formula/<formula>/is-valid")
+@app.route("/api/formula/<formula>/is-valid")
 def formula_is_valid(formula: str):
     try:
         get_calculation_steps(formula)
@@ -88,7 +86,7 @@ def formula_is_valid(formula: str):
 def main():
     if user := get_current_user() == None:
         return redirect("/login")
-    return render_template("index.html", currentPage="home", user=user)
+    return render_template("index.html", currentPage="home", username=user)
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
@@ -96,7 +94,7 @@ def create():
         return redirect("/login")
 
     if request.method == "GET":
-        return render_template("create.html", currentPage="create")
+        return render_template("create.html", username=get_current_user(), currentPage="create")
     elif request.method == "POST":
         print(request.form)
         success, a =  check_arguments(request.form, [("name", str), ("iterations", int), ("escape_radius", float), ("center_x", float), ("center_y", float), ("width", float), ("formula", str), ("preview", str)])

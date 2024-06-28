@@ -6,7 +6,7 @@ const get_fragment_shader = async () => {
     var center_y = document.getElementById('center-y').value;
     var width = document.getElementById('width').value;
 
-    return await fetch("/fragment?" + new URLSearchParams({
+    return await fetch("/api/fragment?" + new URLSearchParams({
         iterations: iterations,
         escape_radius: escape_radius,
         center_x: center_x,
@@ -40,7 +40,7 @@ const formula_is_valid = async (formula) => {
     }
 
     var formula_can_be_processed = await fetch(
-        "/formula/" + encodeURIComponent(formula) + "/is-valid"
+        "/api/formula/" + encodeURIComponent(formula) + "/is-valid"
     )
         .then(response => response.text())
         .then(response => { return response });
