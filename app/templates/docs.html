@@ -5,5 +5,78 @@
 {% endblock %}
 
 {% block content %}
-Docs
+<div class="container-fluid text-center">
+    <h3>Dokumentation</h3>
+    <div class="m-4 p-2 rounded border border-5 border-secondary">
+        <h4>Anforderungen</h4>
+        <div class="text-start">
+            <ul>
+                <li>Der Benutzer soll sich registrieren und anmelden können</li>
+                <li>Der Benutzer soll eine Session erhalten, innerhalb welcher er sich nicht mehr anmelden muss</li>
+                <li>Der Benutzer soll Fraktale über bestimmte Parameter selbst rendern lassen können</li>
+                <li>Der Benutzer soll bestimmte Fraktalkonfigurationen unter einem Namen abspeichern</li>
+                <li>Der Benutzer soll in der Lage sein, sich die Fraktale der anderen Benutzer anschauen zu können und
+                    auf deren Konfiguration aufbauen können</li>
+                <li>Der Benutzer soll Fraktale löschen können</li>
+            </ul>
+        </div>
+        <h4>Design</h4>
+        <div class="text-start">
+            <h6>Benutzte Technologien</h6>
+            <ul>
+                <li>Backend: flask</li>
+                <li>Frontend: Bootstrap 5</li>
+                <li>CAS: sympy</li>
+                <li>Datenbank: sqlite</li>
+                <li>Rendering: WebGL2</li>
+            </ul>
+            <p>
+            <h6>Rendering</h6>
+            Das Rendering wird zwischen Client und Server aufgeteilt.
+            Das Frontend ist verantwortlich für das Erstellen eines WebGL2 Kontextes, Konfigurierung der WebGL Umgebung,
+            Kompilieren sowie Linken von Shadern und Kommunikation mit den Shadern und WebGL.
+            Nach dem Absenden des Forms werden Parameter wie die Formel und die Position der Bildmitte an das Backend
+            übertragen.
+            Das Backend erweitert dann die Formel mit Hilfe von sympy und teilt die Berechnung in reellen und imaginären
+            Teil auf.
+            Dies wird getan, da reeller und imaginärer Teil im Shader separat berechnet werden müssen.
+            Diese beiden Teile der Berechnungsvorschrift, sowie alle anderen Parameter, werdenn dann in ein Shader
+            Template eingefügt,
+            welches zurück an das Frontend geschickt wird.
+            Im Frontend wird der Shader dann kompiliert, mit dem Vertex Shader gelinked und im folgenden gerendered.
+            Sollte sich die Größe des Canvas verändern, wird diese Änderung vom Frontend über eine uniform Variable an
+            den Shader weitergegeben.
+            Alle anderen Parameter sind der Simplizität wegen im Shader Code fest verdrahtet.
+            </p>
+
+            <p>
+            <h6>Sessions</h6>
+            Als Session-Mechanismus habe ich mich für Client-Side Sessions mit JWT's entschieden, welche ich mit dem
+            symmetrischen Verfahren HS256 signiere.
+            Hiermit ist eine gute Skalierbarkeit und eine einfachere Datenbankstruktur gewährleistet.
+            Der Nachteil von HS256 gegenüber von RS256 ist, dass bei mehrern Konsumenten (=> Überprüfung der Signatur)
+            des JWT's ein sicherer Schlüsselaustausch stattfinden müsste, anstatt den öffentlichen Schlüssen abzufragen.
+            Da hier der Server der einzige Konsument der JWT's ist, kann HS256 ohne Bedenken benutzt werden.
+            Die Sicherheit der Sessions wird durch HTTP-Only Cookies realisiert, sodass das Frontend auf die Session
+            JWT's keinen Zugriff hat.
+            </p>
+
+            <p>
+            <h6>Passwörter</h6>
+            Die Passwörter werden mit der Hashfunktion bcrypt in der Datenbank abgespeichert.
+            Bcrypt hashes werden immer gesaltet, wobei der salt an den Hash angehägt wird.
+            Da bcrypt eine kryptographische Hashfunktion ist, ist hiermit Sicherheit der Passwörter gewährleistet.
+            </p>
+            <p>
+            <h6>Datenbank</h6>
+            Das Datenbankschema der sqlite Datenbank sieht wie folgt aus:
+            </p>
+            <img width="40%" src="{{url_for('static', filename='database_schema.svg')}}">
+            <p>
+                Das preview Bild des Fraktals wird als base64 kodierter blob abgespeichert.
+            </p>
+        </div>
+        <h4>Verifikation und Validierung</h4>
+    </div>
+</div>
 {% endblock %}
