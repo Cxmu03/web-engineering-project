@@ -15,7 +15,7 @@
 <div class="container-fluid">
     <div class="d-flex flex-wrap row-gap-3 justify-content-center">
         {% for fractal in fractals %}
-        <div class="d-flex flex-column align-items-center border border-primary mx-3" style="max-width: 288px">
+        <div class="d-flex flex-column align-items-center border border-secondary mx-3" style="max-width: 288px">
             <img style="max-width: 100%; max-height: 162px" class="preview-image" id="preview-for-{{fractal[2]}}"
                 src="{{'data:image/png;base64,' ~ ((fractal[-1] | b64encode) | replace('\'', ''))[1:]}}">
             <div style="display: inline-flex; flex-flow: row nowrap; max-width:100%">
@@ -23,6 +23,7 @@
                     style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: pre;">{{fractal[1]}}</span>
                 <span style="white-space: nowrap;">&nbspby {{fractal[0]}}</span>
             </div>
+            <a href="/create?name={{fractal[1]|urlencode}}&formula={{fractal[3]|urlencode}}&escape_radius={{fractal[4]}}&iterations={{fractal[5]}}&center_x={{fractal[6]}}&center_y={{fractal[7]}}&width={{fractal[8]}}">View</a>
         </div>
         {% endfor %}
     </div>

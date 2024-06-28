@@ -30,24 +30,24 @@
                         <div class="form-group has-validation">
                             <label for="iterations">Iterationen</label>
                             <input class="form-control" name="iterations" style="margin-right: 100px" id="iterations"
-                                type="text" value="1000" required></input>
+                                type="text" {% if iterations %} value="{{iterations}}" {% else %} value="1000" {% endif %}required></input>
                             <div class="invalid-feedback">Die Iterationen müssen ein Integer sein</div>
                         </div>
                         <div class="form-group">
                             <label for="escape_radius">Radius</label>
-                            <input class="form-control" name="escape_radius" id="escape_radius" type="text" value="4"
+                                <input class="form-control" name="escape_radius" id="escape_radius" type="text" {% if escape_radius %} value="{{escape_radius}}" {% else %} value="4" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Der Radius muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label for="formula">Formel</label>
-                            <input class="form-control" name="formula" id="formula" type="text" value="z^2+c"
+                            <input class="form-control" name="formula" id="formula" type="text" {% if formula %} value="{{formula}}" {% else %} value="z^2+c" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Die Formel kann nicht umgeformt werden</div>
                         </div>
                         <div class="form-group">
                             <label for="center-x">X Zentrum</label>
-                            <input class="form-control" name="center_x" id="center-x" type="text" value="-1.0"
+                            <input class="form-control" name="center_x" id="center-x" type="text" {% if center_x %} value="{{center_x}}" {% else %} value="-1.0" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Der reelle Anteil des Zentrums muss ein float sein</div>
                         </div>
@@ -55,20 +55,20 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="center-y">Y Zentrum</label>
-                            <input class="form-control" title="Der Imaginäre Anteil des Zentrums des Bildes" name="center_y" id="center-y" type="text" value="0.0"
+                            <input class="form-control" title="Der Imaginäre Anteil des Zentrums des Bildes" name="center_y" id="center-y" type="text" {% if center_y %} value="{{center_y}}" {% else %} value="0.0" {% endif %}
                                 required></input>
                             <i class="question"></i>
                             <div class="invalid-feedback">Der imaginäre Anteil des Zentrums muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label for="width">Breite</label>
-                            <input class="form-control" name="width" id="width" type="text" value="3.55"
+                            <input class="form-control" name="width" id="width" type="text" {% if width %} value="{{width}}" {% else %} value="3.55" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Die Breite muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="name">Name</label><br>
-                            <input class="form-control" name="name" id="name" type="text" required></input>
+                            <input class="form-control" name="name" id="name" type="text" {% if name %} value="{{name}}" {% endif %} required></input>
                             <div class="invalid-feedback">Der Name kann nicht leer sein</div>
                         </div>
                         <div onclick="submitForm()" class="btn btn-success mt-4 mx-2">Speichern</div>

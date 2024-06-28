@@ -97,7 +97,7 @@ def create():
         return redirect("/login")
 
     if request.method == "GET":
-        return render_template("create.html", username=user, currentPage="create")
+        return render_template("create.html", username=user, currentPage="create", **request.args)
     elif request.method == "POST":
         print(request.form)
         success, a =  check_arguments(request.form, [("name", str), ("iterations", int), ("escape_radius", float), ("center_x", float), ("center_y", float), ("width", float), ("formula", str), ("preview", str)])
