@@ -39,6 +39,20 @@ const render = async () => {
     reload_fragment_shader(fragment_shader);
     render_to("#fractal", fragment_shader);
     adjust_element_sizes("#fractal", "#fragment_shader");
+
+    var canvas = document.getElementById("fractal");
+    var preview_canvas = document.getElementById("preview-canvas")
+
+    var ctx_preview = preview_canvas.getContext("2d");
+
+    ctx_preview.drawImage(canvas, 0, 0, preview_canvas.width, preview_canvas.height);
+
+    document.getElementById("preview").value = preview_canvas.toDataURL();
+}
+
+const fullscreen = () => {
+    var canvas = document.getElementById("fractal");
+    canvas.requestFullscreen();
 }
 
 var canvas = document.querySelector("#fractal");

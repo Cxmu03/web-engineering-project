@@ -1,4 +1,6 @@
-import sqlite3
+import bcrypt
+
+from .database import connection, cursor
 
 def register_user(username: str, password: str) -> bool:
     print(username)
