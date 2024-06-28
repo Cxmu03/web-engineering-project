@@ -13,11 +13,16 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="d-flex flex-wrap row-gap-3 justify-content-around ">
+    <div class="d-flex flex-wrap row-gap-3 justify-content-center">
         {% for fractal in fractals %}
-        <div class="d-flex flex-column align-items-center border border-primary m-auto" style="width: 25%">
-        <img width="288" height="162" class="preview-image" id="preview-for-{{fractal[2]}}" src="{{'data:image/png;base64,' ~ ((fractal[-1] | b64encode) | replace('\'', ''))[1:]}}">
-        <span>{{fractal[1]}} by {{fractal[0]}}</span>
+        <div class="d-flex flex-column align-items-center border border-primary mx-3" style="max-width: 288px">
+            <img style="max-width: 100%; max-height: 162px" class="preview-image" id="preview-for-{{fractal[2]}}"
+                src="{{'data:image/png;base64,' ~ ((fractal[-1] | b64encode) | replace('\'', ''))[1:]}}">
+            <div style="display: inline-flex; flex-flow: row nowrap; max-width:100%">
+                <span
+                    style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: pre;">{{fractal[1]}}</span>
+                <span style="white-space: nowrap;">&nbspby {{fractal[0]}}</span>
+            </div>
         </div>
         {% endfor %}
     </div>
