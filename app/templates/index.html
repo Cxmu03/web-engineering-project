@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
     defer></script>
+<script src="{{url_for('static', filename='render.js')}}" defer></script>
 <script src="{{url_for('static', filename='index.js')}}" defer></script>
 {% endblock %}
 
@@ -20,7 +21,8 @@
     </div>
     <div class="d-flex flex-wrap row-gap-3 mt-4 justify-content-center">
         {% for fractal in fractals %}
-        <div id="preview-for-{{fractal[2]}}" class="d-flex flex-column align-items-center border border-secondary mx-3" style="max-width: 288px">
+        <div id="preview-for-{{fractal[2]}}" class="d-flex flex-column align-items-center border border-secondary mx-3"
+            style="max-width: 288px">
             <img style="max-width: 100%; max-height: 162px" class="preview-image" id="preview-for-{{fractal[2]}}"
                 src="{{'data:image/png;base64,' ~ ((fractal[-1] | b64encode) | replace('\'', ''))[1:]}}">
             <div style="display: inline-flex; flex-flow: row nowrap; max-width:100%">
@@ -29,14 +31,22 @@
                 <span style="white-space: nowrap;">&nbspby {{fractal[0]}}</span>
             </div>
             <div class="flex-row">
-            <button style="background: none!important; border: none; padding: none!important; font-family: arial, sans-serif; color:#069; text-decoration: underline; cursor: pointer;" onclick="deleteFractal('{{fractal[2]}}')">Löschen</button>
-            <a href="/create?name={{fractal[1]|urlencode}}&formula={{fractal[3]|urlencode}}&escape_radius={{fractal[4]}}&iterations={{fractal[5]}}&center_x={{fractal[6]}}&center_y={{fractal[7]}}&width={{fractal[8]}}">Anschauen</a>
+                <button
+                    style="background: none!important; border: none; padding: none!important; font-family: arial, sans-serif; color:#069; text-decoration: underline; cursor: pointer;"
+                    onclick="deleteFractal('{{fractal[2]}}')">Löschen</button>
+                <a
+                    href="/create?name={{fractal[1]|urlencode}}&formula={{fractal[3]|urlencode}}&escape_radius={{fractal[4]}}&iterations={{fractal[5]}}&center_x={{fractal[6]}}&center_y={{fractal[7]}}&width={{fractal[8]}}">Anschauen</a>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-
+    <div class="text-center mt-4">
+        <h4>Wie es aussieht, hast du noch keine Fraktale erstellt :/</h4>
+        <p>Dies kann durch einen Besuch der <a href="/create">Erstellungsseite</a> schnell geändert werden</p>
+        <p>Dass diese Seite nicht völlig leer ist, ist hier ein Mandelbrot Set:</p>
+        <canvas id="fractal-canvas"></canvas>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

@@ -18,24 +18,26 @@
         <div class="card border-0 shadow rounded-3" style="width: 35%; height: 20%; margin: auto auto">
             <div class="card-body p-4 p-sm-5">
                 <h5 class="card-title text-center mb-5 fw-light fs-5">Registrieren</h5>
-                <form method="post" class="mb-4">
+                <form method="post" class="needs-validation mb-4" novalidate>
                     <div class="form-floating mb-3">
                         <input name="username" type="username" class="form-control" id="floatingInput" placeholder="name@example.com">
                         <label for="floatingInput">Nutzername</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Passwort">
+                        <input name="password" onkeyup="validate('#floatingPassword')" type="password" class="form-control" id="floatingPassword" placeholder="Passwort">
+                        <div class="invalid-feedback"></div>
                         <label for="floatingPassword">Passwort</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="password-repeat" type="password" class="form-control" id="floatingPasswordRepeat" placeholder="Passwort">
+                        <input name="password-repeat" onkeyup="validateRepeat('#floatingPassword', '#floatingPasswordRepeat')" type="password" class="form-control" id="floatingPasswordRepeat" placeholder="Passwort">
+                        <div class="invalid-feedback">Die Passwörter stimmen nicht überein</div>
                         <label for="floatingPasswordRepeat">Passwort wiederholen</label>
                     </div>
                     <div class="d-grid">
                         <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Registrieren</button>
                     </div>
                 </form>
-                <center><a href="/login">Du hast bereits einen Account?</a></center>
+                <div class="text-center"><a href="/login">Du hast bereits einen Account?</a></div>
             </div>
         </div>
     </div>
@@ -49,6 +51,57 @@
             preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
             document.documentElement.setAttribute("data-bs-theme", preferredTheme)
         }
+
+        const validateRepeat = (selector1, selector2) => {
+            var pass = document.querySelector(selector1);
+            var passRepeat = document.querySelector(selector2);
+
+            if (pass.value != passRepeat.value) {
+                passRepeat.classList.add("is-invalid");
+            } else {
+                passRepeat.classList.remove("is-invalid");
+            }
+        }
+
+        const validate = (selector) => {
+            var element = document.querySelector(selector);
+
+            if (element.value.length < 8) {
+                element.nextElementSibling.innerText = "Passwort muss länger als 7 Zeichen sein";
+                element.classList.add("is-invalid");
+                return;
+            } else {
+                element.classList.remove("is-invalid");
+            }
+
+            var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+            if (!format.test(element.value)) {
+                element.classList.add("is-invalid");
+                element.nextElementSibling.innerText = "Passwort muss ein Sonderzeichen enthalten";
+            } else {
+                element.classList.remove("is-invalid");
+            }
+        } 
+
+        (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (document.getElementById("floatingPassword").classList.contains("is-invalid") ||
+            document.getElementById("floatingPasswordRepeat").classList.contains("is-invalid")) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+      }, false)
+    })
+})()
 
         canvas = document.querySelector("#background-canvas");
         canvas.style.width = "100%";

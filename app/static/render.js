@@ -78,7 +78,7 @@ function render_to(canvas_selector, fragment_shader) {
 }
 
 function render_default_mandelbrot(canvas_selector) {
-    fetch("/api/fragment?iterations=1000&escape_radius=4.0&center_x=0.0&center_y=0.0&width=3.55&formula=z^2%2Bc")
+    fetch("/api/fragment?iterations=1000&escape_radius=4.0&center_x=-1.0&center_y=0.0&width=3.55&formula=z^2%2Bc")
         .then(response => response.text())
         .then(response => {
             console.log(response);
