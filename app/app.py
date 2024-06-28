@@ -38,9 +38,12 @@ def login():
 
 @app.route("/explore", methods=["GET"])
 def explore():
+    if (user := get_current_user()) == None:
+        return redirect("/login", 302)
+
     fractals = get_all_fractals()
 
-    return render_template("explore.html", username=get_current_user(), current_page="explore", fractals=fractals)
+    return render_template("explore.html", username=user, fractals=fractals)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -84,17 +87,17 @@ def formula_is_valid(formula: str):
 
 @app.route("/", methods=["GET"])
 def main():
-    if user := get_current_user() == None:
+    if (user := get_current_user()) == None:
         return redirect("/login")
     return render_template("index.html", currentPage="home", username=user)
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
-    if user := get_current_user() == None:
+    if (user := get_current_user()) == None:
         return redirect("/login")
 
     if request.method == "GET":
-        return render_template("create.html", username=get_current_user(), currentPage="create")
+        return render_template("create.html", username=user, currentPage="create")
     elif request.method == "POST":
         print(request.form)
         success, a =  check_arguments(request.form, [("name", str), ("iterations", int), ("escape_radius", float), ("center_x", float), ("center_y", float), ("width", float), ("formula", str), ("preview", str)])
@@ -110,3 +113,7 @@ def create():
         save_fractal_to_database("Marek", a["name"], a["formula"], a["escape_radius"], a["iterations"], a["center_x"], a["center_y"], a["width"], a["preview"].split(",")[-1])
 
         return redirect("/create", 302)
+    
+@app.route("/docs")
+def docs():
+    return render_template("docs.html", username=get_current_user())
