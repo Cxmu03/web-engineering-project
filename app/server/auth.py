@@ -1,4 +1,4 @@
-import jws
+from jose import jws
 import bcrypt
 from flask import request, abort
 
@@ -35,7 +35,7 @@ def get_current_user() -> str:
     if (access_token := request.cookies.get("access_token")) is not None:
         return decode_user_from_token(access_token)
 
-    abort(401, "No access token could be found") 
+    return None
 
 def get_new_access_token(username: str) -> str:
     now = datetime.now()

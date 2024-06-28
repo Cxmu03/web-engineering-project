@@ -1,25 +1,24 @@
 import bcrypt
 
-from .database import connection, cursor
+from . import database
 
 def register_user(username: str, password: str) -> bool:
     print(username)
-    user_results = cursor.execute("SELECT * FROM user WHERE user.username = ?", (username,))
+    user_results = database.cursor.execute("SELECT * FROM user WHERE user.username = ?", (username,))
 
     if user_results.fetchall() != []:
         return False
 
     hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-    insertion_result = cursor.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, hash))
+    insertion_result = database.cursor.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, hash))
 
-    connection.commit()
+    database.connection.commit()
 
     return True
 
-
 def try_login_user(username: str, password: str) -> bool:
-    user_results = cursor.execute("SELECT * FROM user WHERE user.username = ?", (username, ))
+    user_results = database.cursor.execute("SELECT * FROM user WHERE user.username = ?", (username, ))
 
     user_results = user_results.fetchone()
 

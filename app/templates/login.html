@@ -18,19 +18,20 @@
         <div class="card border-0 shadow rounded-3" style="width: 35%; height: 25%; margin: auto auto">
             <div class="card-body p-4 p-sm-5">
                 <h5 class="card-title text-center mb-5 fw-light fs-5">Login</h5>
-                <form method="post">
+                <form method="post" class="mb-4">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email Adresse</label>
+                        <input name="username" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Username</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Passwort">
+                        <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Passwort">
                         <label for="floatingPassword">Passwort</label>
                     </div>
                     <div class="d-grid">
                         <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Login</button>
                     </div>
                 </form>
+                <center><a href="/register">Du hast noch keinen Account?</a></center>
             </div>
         </div>
     </div>

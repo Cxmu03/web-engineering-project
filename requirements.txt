@@ -1,4 +1,4 @@
 flask
-jws
+python-jose
 bcrypt
 sympy

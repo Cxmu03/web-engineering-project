@@ -16,13 +16,36 @@ def check_arguments(provided_args, needed_args):
 
     return True, args
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        if ("username" not in request.form or "password" not in request.form) \
+            or (not try_login_user(request.form["username"], request.form["password"])):
+            return render_template("login.html")
+
+        access_token = get_new_access_token(request.form["username"])
+        print(access_token)
+
+        response = make_response(redirect("/", 302))
+
+        response.set_cookie("access_token", access_token, httponly=True)
+
+        return response
     return render_template("login.html")
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    if request.method == "GET":
+        return render_template("register.html")
+    else:
+        if ("username" not in request.form or "password" not in request.form) \
+            or (request.form["password"] != request.form["password-repeat"]) \
+            or (len(request.form["password"]) < 8) \
+            or (not register_user(request.form["username"], request.form["password"])):
+            return render_template("register.html")
+
+        return redirect("/login", 302)
+
 
 @app.route("/fragment")
 def fragment_shader():
@@ -42,12 +65,17 @@ def fragment_shader():
         200
     )
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def main():
+    if user := get_current_user() == None:
+        return redirect("/login")
     return render_template("index.html", currentPage="home")
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
+    if user := get_current_user() == None:
+        return redirect("/login")
+
     if request.method == "GET":
         return render_template("create.html", currentPage="create")
     elif request.method == "POST":
