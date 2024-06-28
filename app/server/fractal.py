@@ -29,6 +29,8 @@ def get_all_fractals():
 def get_all_fractals_excepy_by(username: str):
     fractals = database.cursor.execute("SELECT * FROM fractal WHERE fractal.username != ?", (username, ))
 
+    return fractals.fetchall()
+
 def get_all_fractals_by(username: str):
     fractals = database.cursor.execute("SELECT * FROM fractal where fractal.username = ?", (username,))
 

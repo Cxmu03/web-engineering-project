@@ -129,7 +129,7 @@ def create():
                 422
             )
 
-        save_fractal_to_database("Marek", a["name"], a["formula"], a["escape_radius"], a["iterations"], a["center_x"], a["center_y"], a["width"], a["preview"].split(",")[-1])
+        save_fractal_to_database(user, a["name"], a["formula"], a["escape_radius"], a["iterations"], a["center_x"], a["center_y"], a["width"], a["preview"].split(",")[-1])
 
         return redirect("/create", 302)
     
