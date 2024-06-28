@@ -3,8 +3,13 @@ from flask import Flask, render_template, request, make_response, jsonify, redir
 from .server import *
 from .server.rendering import get_fragment_shader
 
+import base64
+
 app = Flask(__name__,)
+app.jinja_env.filters['b64encode'] = base64.b64encode
 database.init()
+
+get_all_fractals_by("Marek")
 
 def check_arguments(provided_args, needed_args):
     args = {}
@@ -32,6 +37,12 @@ def login():
 
         return response
     return render_template("login.html")
+
+@app.route("/explore", methods=["GET"])
+def explore():
+    fractals = get_all_fractals()
+
+    return render_template("explore.html", fractals=fractals)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -69,7 +80,7 @@ def fragment_shader():
 def main():
     if user := get_current_user() == None:
         return redirect("/login")
-    return render_template("index.html", currentPage="home")
+    return render_template("index.html", currentPage="home", user=user)
 
 @app.route("/create", methods=["GET", "POST"])
 def create():

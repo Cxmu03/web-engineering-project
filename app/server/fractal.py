@@ -10,3 +10,13 @@ def save_fractal_to_database(user: str, name: str, formula: str, escape_radius: 
                       (user, name, formula, escape_radius, iterations, center_x, center_y, width, image_data))
 
     database.connection.commit()
+
+def get_all_fractals():
+    fractals = database.cursor.execute("SELECT * FROM fractal")
+
+    return fractals.fetchall()
+
+def get_all_fractals_by(username: str):
+    fractals = database.cursor.execute("SELECT * FROM fractal where fractal.username = ?", (username,))
+
+    return fractals.fetchall()
