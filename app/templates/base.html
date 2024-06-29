@@ -56,13 +56,21 @@
                         {% endif %}
                         Explore</a>
                     </li>
+                    <li class="nav-item">
+                        {% if currentPage == "docs" %}
+                        <a href="/docs" class="nav-link active" aria-current="page">
+                        {% else %}
+                        <a href="/docs" class="nav-link">
+                        {% endif %}
+                        Documentation</a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div>
-            <span>Eingeloggt als {{username}}</span>
+            <span>Eingeloggt&nbspals <br> {{username}}</span>
         </div>
-        <div>
+        <div style="margin-left:14px; margin-right: 12px">
             <div onclick="window.location = '/logout';" class="btn btn-danger">Ausloggen</div>
         </div>
     </nav>        

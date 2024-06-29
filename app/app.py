@@ -61,7 +61,7 @@ def explore():
 
     fractals = get_all_fractals_excepy_by(user)
 
-    return render_template("explore.html", username=user, fractals=fractals)
+    return render_template("explore.html", username=user, fractals=fractals, currentPage="explore")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -155,4 +155,4 @@ def create():
     
 @app.route("/docs")
 def docs():
-    return render_template("docs.html", username=get_current_user())
+    return render_template("docs.html", username=get_current_user(), currentPage="docs")
