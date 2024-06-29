@@ -31,7 +31,7 @@ def login():
 
         response = make_response(redirect("/", 302))
 
-        response.set_cookie("access_token", access_token, httponly=True)
+        response.set_cookie("access_token", access_token, httponly=True, max_age=86400)
 
         return response
 
