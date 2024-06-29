@@ -149,6 +149,12 @@ const submitForm = async () => {
     }
 }
 
+
+if(localStorage.getItem("has-seen-hint") == null) {
+    alert("Bei Hovern über die einzelnen Input Felder werden weitere Informationen zu diesen angezeigt. Diese Meldung wird nicht mehr angezeigt.");
+    localStorage.setItem("has-seen-hint", "true");
+}
+
 // Fetch all the forms we want to apply custom Bootstrap validation styles to
 //var forms = document.querySelectorAll('.needs-validation')
 //  

@@ -29,25 +29,25 @@
                     <div class="col">
                         <div class="form-group has-validation">
                             <label for="iterations">Iterationen</label>
-                            <input class="form-control" name="iterations" style="margin-right: 100px" id="iterations"
+                            <input class="form-control" name="iterations" title="Die maximale Anzahl an Iterationen. Falls die Folge für einen Punkt innerhalb dieser Iterationen nicht divergiert, ist dieser Punkt Teil der Fraktal Menge." style="margin-right: 100px" id="iterations"
                                 type="text" {% if iterations %} value="{{iterations}}" {% else %} value="1000" {% endif %}required></input>
                             <div class="invalid-feedback">Die Iterationen müssen ein Integer sein</div>
                         </div>
                         <div class="form-group">
                             <label for="escape_radius">Radius</label>
-                                <input class="form-control" name="escape_radius" id="escape_radius" type="text" {% if escape_radius %} value="{{escape_radius}}" {% else %} value="4" {% endif %}
+                                <input class="form-control" title="Der Schwellenwert für den ein Folgenglied als divergiert gilt" name="escape_radius" id="escape_radius" type="text" {% if escape_radius %} value="{{escape_radius}}" {% else %} value="4" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Der Radius muss ein float sein</div>
                         </div>
                         <div class="form-group">
                             <label for="formula">Formel</label>
-                            <input class="form-control" name="formula" id="formula" type="text" {% if formula %} value="{{formula}}" {% else %} value="z^2+c" {% endif %}
+                            <input class="form-control" title="Dieses System kann eine Teilmenge der Folgengleichungen der Form z_(n+1)=f(x) verarbeiten. In diesem Feld wird die spezifische Form der Funktion f(x) eingetragen. Es stehen folgende Variablen zur Verfügung:&#013;z: Das komplexe Folgenglied z_n&#013;zx: Der reelle Teil von z_n&#013;zy: Der imaginäre Teil von z_n&#013;c: Die zugehörige Komplexe Zahl zu einen Bildpunkt&#013;cx: Der reelle Teil von c&#013;cy: Der komplexe Teil von c&#013;I: Die komplexe Einheit&#013;Implizite Multiplikation ist nicht valide" name="formula" id="formula" type="text" {% if formula %} value="{{formula}}" {% else %} value="z^2+c" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Die Formel kann nicht umgeformt werden</div>
                         </div>
                         <div class="form-group">
                             <label for="center-x">X Zentrum</label>
-                            <input class="form-control" name="center_x" id="center-x" type="text" {% if center_x %} value="{{center_x}}" {% else %} value="-1.0" {% endif %}
+                            <input class="form-control" title="Der Reelle Anteil des Zentrums des Bildes" name="center_x" id="center-x" type="text" {% if center_x %} value="{{center_x}}" {% else %} value="-1.0" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Der reelle Anteil des Zentrums muss ein float sein</div>
                         </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-group">
                             <label for="width">Breite</label>
-                            <input class="form-control" name="width" id="width" type="text" {% if width %} value="{{width}}" {% else %} value="3.55" {% endif %}
+                            <input class="form-control" title="Die Breite des Bildes im Raum des Fraktals" name="width" id="width" type="text" {% if width %} value="{{width}}" {% else %} value="3.55" {% endif %}
                                 required></input>
                             <div class="invalid-feedback">Die Breite muss ein float sein</div>
                         </div>
