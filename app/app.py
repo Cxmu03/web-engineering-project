@@ -34,6 +34,9 @@ def login():
         response.set_cookie("access_token", access_token, httponly=True)
 
         return response
+
+    if (user := get_current_user()) != None:
+        return redirect("/")
     return render_template("login.html")
 
 @app.route("/api/user/<username>/exists")
@@ -42,6 +45,14 @@ def api_user_exists(username):
         return "true", 200
     
     return "false", 200
+
+@app.route("/logout")
+def logout():
+    response = make_response(redirect("/login"))
+
+    response.delete_cookie("access_token")
+
+    return response
 
 @app.route("/explore", methods=["GET"])
 def explore():
@@ -55,6 +66,8 @@ def explore():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
+        if (user := get_current_user()) != None:
+            return redirect("/")
         return render_template("register.html")
     else:
         if ("username" not in request.form or "password" not in request.form) \
