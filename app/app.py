@@ -36,6 +36,13 @@ def login():
         return response
     return render_template("login.html")
 
+@app.route("/api/user/<username>/exists")
+def api_user_exists(username):
+    if user_exists(username):
+        return "true", 200
+    
+    return "false", 200
+
 @app.route("/explore", methods=["GET"])
 def explore():
     if (user := get_current_user()) == None:
