@@ -12,7 +12,7 @@
         <div class="text-start">
             <ul>
                 <li>Der Benutzer soll sich registrieren und anmelden können</li>
-                <li>Der Benutzer soll eine Session erhalten, innerhalb welcher er sich nicht mehr anmelden muss</li>
+                <li>Der Benutzer soll eine Session erhalten, innerhalb welcher er sich nicht mehr anmelden muss. Er soll auch in der Lage sein, diese Session vor deren Ablaufen zu beenden</li>
                 <li>Der Benutzer soll Fraktale über bestimmte Parameter selbst rendern lassen können</li>
                 <li>Der Benutzer soll bestimmte Fraktalkonfigurationen unter einem Namen abspeichern</li>
                 <li>Der Benutzer soll in der Lage sein, sich die Fraktale der anderen Benutzer anschauen zu können und
@@ -21,6 +21,27 @@
             </ul>
         </div>
         <h4>Design</h4>
+        <div class="text-start">
+            <div class="d-flex flex-column mt-4 align-items-center">
+                <img class="mb-2 border border-secondary" width="50%" src="{{url_for('static', filename='mockup.png')}}">
+                Mockup für die Explore Seite
+            </div>
+            <div class="d-flex flex-column align-items-center mt-4 text-center">
+                <img class="mb-2" width="90%" src="{{url_for('static', filename='create_fractal_swimlanes.png')}}">
+                Swimlanes für Fraktal Erstellung
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="d-flex flex-column align-items-center">
+                    <img class="mb-2" width="60%" src="{{url_for('static', filename='registration_flowchart.png')}}">
+                    Flowchart für die Registrierung
+                </div>
+                <div class="d-flex flex-column align-items-center mb-5">
+                    <img class="mb-2" width="60%" src="{{url_for('static', filename='login_flowchart.png')}}">
+                    Flowchart für das Login
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-5">Implementierung</h4>
         <div class="text-start">
             <h6>Benutzte Technologien</h6>
             <ul>
@@ -77,6 +98,29 @@
             </p>
         </div>
         <h4>Verifikation und Validierung</h4>
+        <div class="text-start">
+            <p>Die korrekte Funktionsweise wurde über manuelles Testen sichergestellt.</p>
+            <ul>
+                <li>
+                    <b>Login und Registrierung</b>: Der Benutzer kann sich Registrieren und Einloggen. Es ist dem Nutzer nicht möglich einen neuen Nutzer mit bereits vorhandenem Nutzernamen zu erstellen oder ein Passwort zu erstellen, welches nicht den Anforderungen entspricht. Die Validierung der Eingabedaten erfolg Clientseitig für ein sofortiges Feedback, sowie auch Serverseitig. Es ist nicht möglich einen invaliden Account durch Umgehen der clientseitigen Maßnahmen zu erstellen.
+                </li>
+                <li>
+                    <b>Session</b>: Die Session wird korrekt auf dem Client gespeichert und verhindert, dass sich der User in den nächsten 24 Stunden erneut anmelden muss. Die Session kann durch Klick auf den "Abmelden" Knopf gelöscht werden, woraufhin sich der User erneut anmelden muss.
+                </li>
+                <li>
+                    <b>Fraktale Erstellen</b>: Der Benutzer kann Fraktale über bestimmte Parameter rendern lassen. Invalide Formeln werden clientseitig über einen AJAX Call an das Backend abgefangen. Andere Parameter werden im Falle von Fehlern korrekt clientseitig validiert und berichtigt. Falls diese Überprüfungen umgangen werden, wird ein invalider Shader generiert, welcher zu einem unsinnigen Rendering Ergebnis oder fehlerhafter Shader-Kompilierung führt. Dies stellt aber keine Sicherheitslücke dar und wirkt sich nicht auf persistenten Serverzustand aus.
+                </li>
+                <li>
+                    <b>Fraktale Speichern</b>: Die Fraktale können aus dem Erstellungsformular gespeichert werden. Dies wurde per Überprüfung in der Datenbank verifiziert.
+                </li>
+                <li>
+                    <b>Fraktale Teilen</b>: Die gespeicherten Fraktale des Benutzers werden automatisch auf der <a href="/explore">explore</a> Seite der anderen Nutzer angezeigt. Dies wurde durch ausprobieren mit 3 Benutzern validert. Bei Klicken auf den "Anschauen" Knopf eines Fraktals wird der Benutzer korrekt auf die <a href="/create">create</a> Seite umgeleitet, welche mit den korrekten Fraktal-Parametern gefüllt wird.
+                </li>
+                <li>
+                    <b>Fraktale Löschen</b>: Der Benutzer kann erstellte Fraktale löschen. Dies wurde manuell mit 2 Benutzern und Blick in die Datenbank verifiziert.
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
